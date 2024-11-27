@@ -1,0 +1,71 @@
+class MyShows:
+    def __init__(self, series_title, platform, first_series_release_year, main_characters, num_of_series = 1, user_rate = None):
+        self._series_title = series_title
+        self._platform = platform
+        self._first_series_release_year = first_series_release_year
+        self._num_of_series = num_of_series
+        self._user_rate = user_rate
+        self._main_characters = main_characters
+
+    @property
+    def series_title(self):
+        return self._series_title
+
+    @property
+    def platform(self):
+        return self._platform
+
+    @property
+    def first_series_release_year(self):
+        return self._first_series_release_year
+
+    @property
+    def num_of_series(self):
+        return self._num_of_series
+
+    @num_of_series.setter
+    def num_of_series(self, value):
+        if isinstance(self.num_of_series, int):
+            self.num_of_series  = value
+        else:
+            raise ValueError("Number of series must be a positive integer")
+
+    @property
+    def user_rate(self):
+        return self._user_rate
+
+    @user_rate.setter
+    def user_rate(self, value):
+        if isinstance(value, int) and value > 0 and value <= 10:
+            self._user_rate = value
+        else:
+            raise ValueError("Rating must be an integer between 0 and 10")
+
+
+    @user_rate.deleter
+    def user_rate(self):
+        self._user_rate = None
+
+    @property
+    def main_characters(self):
+        return self._main_characters
+
+    def append_main_characters_list(self, new_character):
+        self.new_character = new_character
+        self._main_characters.append(self.new_character)
+
+    def __str__(self):
+        return f'''Serial name: {self._series_title}
+Platform: {self._platform}
+Release date of the first series: {self._first_series_release_year}
+Main characters: {self._num_of_series}
+Your rating: {self._user_rate}
+Main characters: {self._main_characters}'''
+
+serials = MyShows('ddasds', 'gfdsx', 1999, ['sadsadsa', 'asdasdasdsa', 'dsfasdsa'], 4, 7)
+
+del serials.user_rate
+print(serials.user_rate)
+
+serials.user_rate = 8
+print(serials.user_rate)
