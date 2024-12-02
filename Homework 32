@@ -1,0 +1,221 @@
+import sys
+
+
+class MyList:
+    im_parent = 'MyList'
+    def __init__(self, *args):
+        self.mlist = [*args]
+        self.len_list = len(self.mlist)
+
+    def __add__(self, other):
+        if isinstance(other, MyList):
+            return MyList(*(self.mlist + other.mlist))
+        else:
+            raise Exception(NotImplemented)
+
+    def __class__(self):
+        return '<class "__main__.MyList">'
+
+    def __class_getitem__(cls, item):
+        return f'MyList[{item}]'
+
+    def __contains__(self, item):
+        return item in self.mlist
+
+    def __str__(self):
+        return f"MyList[{', '.join(map(str, self.mlist))}]"
+
+    def __delattr__(self, item):
+        self.mlist.__delattr__(item)
+
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            if index < 0:
+                index = len(self.mlist) + index
+            if index < 0 or index >= len(self.mlist):
+                raise IndexError("Index out of range")
+            return self.mlist[index]
+        else:
+            raise TypeError("Index must be an integer")
+
+    def __delitem__(self, key):
+        del self.mlist[key]
+
+    def __iter__(self):
+        return super().__iter__()
+
+    def __doc__(self):
+        return f'This class is a custom version of the list class.'
+
+    def __eq__(self, other):
+        if isinstance(other, MyList):
+            if self.mlist == other.mlist:
+                return True
+            else:
+                return False
+    def __ne__(self, other):
+        if isinstance(other, MyList):
+            if self.mlist != other.mlist:
+                return True
+            else:
+                return False
+
+    def __format__(self, format_spec):
+        if format_spec == '':
+            return f'{self.mlist}'
+        raise Exception('Uncorrect input')
+
+    def __ge__(self, other):
+        if isinstance(other, MyList):
+            if len(self.mlist) > len(other.mlist) or self.mlist == other.mlist:
+                return True
+            elif len(self.mlist) == len(other.mlist):
+                for i in self.mlist:
+                    if self.mlist[i] > other.mlist[i]:
+                        return True
+                    elif self.mlist[i] < other.mlist[i]:
+                        return False
+
+    def __gt__(self, other):
+        if isinstance(other, MyList):
+            if len(self.mlist) > len(other.mlist):
+                return True
+            elif len(self.mlist) == len(other.mlist):
+                for i in self.mlist:
+                    if self.mlist[i] > other.mlist[i]:
+                        return True
+                    elif self.mlist[i] < other.mlist[i]:
+                        return False
+
+    def __ge__(self, other):
+        if isinstance(other, MyList):
+            if len(self.mlist) < len(other.mlist) or self.mlist == other.mlist:
+                return True
+            elif len(self.mlist) == len(other.mlist):
+                for i in self.mlist:
+                    if self.mlist[i] < other.mlist[i]:
+                        return True
+                    elif self.mlist[i] < other.mlist[i]:
+                        return False
+
+    def __len__(self):
+        return len(self.mlist)
+
+    def __lt__(self, other):
+        if isinstance(other, MyList):
+            if len(self.mlist) < len(other.mlist):
+                return True
+            elif len(self.mlist) == len(other.mlist):
+                for i in self.mlist:
+                    if self.mlist[i] < other.mlist[i]:
+                        return True
+                    elif self.mlist[i] > other.mlist[i]:
+                        return False
+
+    def __hash__(self):
+        return hash(self.mlist)
+
+    def __iadd__(self, other):
+        if isinstance(other, MyList):
+            self.mlist += other.mlist
+        else:
+            self.mlist += other.mlist
+        return self
+
+    def __imul__(self, other):
+        if isinstance(other, int):
+            self.mlist *= other
+        else:
+            self.mlist *= other
+        return self
+
+    def __mul__(self, other):
+        return self.mlist * other
+
+    def __reversed__(self):
+        return reversed(self.mlist)
+
+    def __rmul__(self, other):
+        return self.mlist * other
+
+    def __setattr__(self, key, value):
+        if isinstance(key, int) and 0 <= key < len(self.mlist):
+            self.mlist[key] = value
+        else:
+            super().__setattr__(key, value)
+        return self
+
+    def __setitem__(self, index, value):
+        self.mlist[index] = value
+
+    def __sizeof__(self):
+        return sys.getsizeof(self.mlist)
+
+    def __subclasshook__(cls, subclass):
+        return subclass.im_parent == 'MyList'
+
+    def append(self, other):
+        self.mlist.append(other)
+        return self.mlist
+
+    def clear(self):
+        self.mlist = []
+        return self.mlist
+
+    def copy (self):
+        mlist_copy = self.mlist
+        return mlist_copy
+
+    def count(self,found_item):
+        count_item = 0
+        for i in self.mlist:
+            if i == found_item:
+                count_item += 1
+        return count_item
+
+    def extend(self, other):
+        self.mlist += other.mlist
+        return self.mlist
+
+    def index(self, item, start = 0, end = None):
+        count1 = start
+        if end == None:
+            end = self.len_list
+        if start >= 0:
+            for i in range(start,end):
+                if self.mlist[i] == item:
+                    return count1
+                count1 += 1
+        else:
+            if start < 0:
+                end = -end
+            for i in range(end, start):
+                if self.mlist[::-1][i] == item:
+                    return count1
+                count1 -= 1
+
+    def insert(self, ind, obj):
+        self.mlist.insert(ind, obj)
+
+    def pop(self, index = None):
+        if index == None:
+            return self.mlist.pop()
+        else:
+            return self.mlist.pop(index)
+
+    def remove(self, item):
+        return self.mlist.remove(item)
+
+    def reverse(self):
+        self.mlist.reverse()
+        return self.mlist
+
+    def sort(self, reverse = False):
+        self.mlist.sort()
+        if reverse == False:
+            return self.mlist
+        else:
+            return self.mlist[::-1]
+
+    def __dir__(self):
+        return ['__add__', '__class__', '__class_getitem__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
